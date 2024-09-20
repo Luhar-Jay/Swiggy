@@ -26,7 +26,7 @@ function App() {
                 <Suspense
                   fallback={
                     <div>
-                      <Shimmer />
+                      <h1>Loading.....</h1>
                     </div>
                   }
                 >

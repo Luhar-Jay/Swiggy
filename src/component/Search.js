@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import RestaurentCard from "./RestaurentCard";
+import { CDN_URL } from "../utils/constant";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [listOfRestaurent, setListOfRestaurent] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [suggetions, setSuggetions] = useState([]);
 
   useEffect(() => {
-    // console.log(listOfRestaurent); // Verify state update here
-    // setFilteredRestaurants(listOfRestaurent); // Initialize filtered list here
     fetchData();
   }, []);
 
@@ -29,6 +29,20 @@ const Search = () => {
       res.info.name.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredRestaurants(filteredRestaurant);
+
+    const suggested = listOfRestaurent.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSuggetions(suggested);
+  };
+  const handleSearchTextChange = (e) => {
+    const searchText = e.target.value;
+    setSearchText(searchText);
+
+    const suggested = listOfRestaurent.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSuggetions(suggested);
   };
   return (
     <div className="max-w-[1250px] mx-auto">
@@ -39,9 +53,14 @@ const Search = () => {
           placeholder="Search for restaurant and food"
           className="border p-2 border-solid border-black rounded h-9 w-[550px]"
           value={searchText}
-          onChange={(e) => {
-            setSearchText(e.target.value);
+          onChange={handleSearchTextChange}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
           }}
+          onFocus={() => setSuggetions(true)}
+          onBlur={() => setTimeout(() => setSuggetions(false), 200)}
         />
         <button
           className="px-4 py-2 bg-green-200 m-4 rounded-lg"
@@ -49,6 +68,28 @@ const Search = () => {
         >
           Search
         </button>
+        <div className="bg-white text-black">
+          {suggetions.length > 0 && (
+            <ul className="absolute bg-white top-[150px] left-[305px] border z-10 w-[550px] p-2 ">
+              {suggetions.map((s) => (
+                <Link to={`/category/${s.info.id}`} key={s.info.id}>
+                  <li className="">
+                    <div className="flex space-x-4 my-2 border-b-2">
+                      <img
+                        className="w-16 h-16 mb-1 rounded-full"
+                        src={CDN_URL + s.info.cloudinaryImageId}
+                        alt={s.info.name}
+                      />
+                      <div>
+                        <p>{s.info.name}</p>
+                      </div>
+                    </div>
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="search m-4 p-4 flex items-center">
           <button
             className="px-4 py-2 bg-gray-100 rounded-lg"
@@ -66,10 +107,7 @@ const Search = () => {
 
       <div className="flex flex-wrap">
         {filteredRestaurants.map((restaurent, index) => (
-          <Link
-            to={"/restaurants/" + restaurent.info.id}
-            key={restaurent.info.id}
-          >
+          <Link to={`/category/${restaurent.info.id}`} key={restaurent.info.id}>
             {" "}
             <RestaurentCard key={index} resData={restaurent.info} />
           </Link>
