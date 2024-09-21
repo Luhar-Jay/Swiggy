@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import RestaurentCard from "./RestaurentCard";
 import { CDN_URL } from "../utils/constant";
 import Category from "./Category";
@@ -11,6 +11,8 @@ const Search = () => {
   const [suggetions, setSuggetions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const { id } = useParams();
+
   useEffect(() => {
     fetchData("");
   }, []);
@@ -21,7 +23,7 @@ const Search = () => {
     );
     const json = await response.json();
     console.log(json?.data?.suggestions);
-    setListOfRestaurent(json?.data);
+    setListOfRestaurent(json?.data?.suggestions);
   };
   console.log("listOfRestaurent", listOfRestaurent);
 
@@ -30,7 +32,7 @@ const Search = () => {
     setSearchText(searchText);
     if (listOfRestaurent && listOfRestaurent.length > 0) {
       const suggested = listOfRestaurent.filter((res) =>
-        res.suggestions[0].text.toLowerCase().includes(searchText.toLowerCase())
+        res.text.toLowerCase().includes(searchText.toLowerCase())
       );
       setSuggetions(suggested);
     } else {
@@ -66,18 +68,20 @@ const Search = () => {
           {showSuggestions && suggetions.length > 0 && (
             <ul className="absolute bg-white top-[150px] left-[455px] border z-10 w-[550px] p-2 ">
               {suggetions.map((s) => (
-                <li key={s.text} className="cursor-pointer hover:bg-gray-100">
-                  <div className="flex space-x-4 my-2 border-b-2">
-                    <img
-                      className="w-16 h-16 mb-1 rounded-full"
-                      src={CDN_URL + s.suggestions.cloudinaryId}
-                      alt={s.suggestions.text}
-                    />
-                    <div>
-                      <p>{s.suggestions.text}</p>
+                <Link to={`/search/${id}`} key={s.text}>
+                  <li className="cursor-pointer hover:bg-gray-100">
+                    <div className="flex space-x-4 my-2 border-b-2">
+                      <img
+                        className="w-16 h-16 mb-1 rounded-full"
+                        src={CDN_URL + s.cloudinaryId}
+                        alt={s.text}
+                      />
+                      <div>
+                        <p>{s.text}</p>
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
+                </Link>
               ))}
             </ul>
           )}

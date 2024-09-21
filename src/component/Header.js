@@ -1,21 +1,32 @@
 import React, { useState } from "react";
 import { LOGO_URL } from "../utils/constant";
 import { FaAngleDown, FaSearch, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoBagHandle, IoCart } from "react-icons/io5";
 import { BiSolidOffer } from "react-icons/bi";
 import { IoIosHelpBuoy } from "react-icons/io";
 import cross from "../component/Images/image.png";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { RxCross2 } from "react-icons/rx";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Header = () => {
   const [popUp, setPopUp] = useState(false);
   const [loggedIn, setLogedIn] = useState(true);
   const cartItems = useSelector((store) => store.cart.items);
+  const user = useSelector((store) => store.user);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    setLogedIn(!loggedIn);
+    signOut(auth)
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const handlePopUp = () => {
@@ -45,10 +56,8 @@ const Header = () => {
           }}
         >
           <div className=" mx-10 my-10 items-center">
-            <img
-              src={cross}
-              alt=""
-              className="h-4 cursor-pointer "
+            <RxCross2
+              className="h-8 w-5 cursor-pointer "
               onClick={closeToggle}
             />
             <div className="mt-5">
@@ -108,13 +117,16 @@ const Header = () => {
                 <IoIosHelpBuoy />
                 Help
               </li>
-              <li
-                className="flex items-center gap-2 text-gray-600 hover:text-orange-500 font-medium cursor-pointer"
-                onClick={handleLogin}
-              >
-                <FaUser />
-                {loggedIn ? "Sign In " : "Sing Up"}
-              </li>
+              <Link to={"/login"}>
+                <li
+                  className="flex items-center gap-2 text-gray-600 hover:text-orange-500 font-medium cursor-pointer"
+                  onClick={handleLogin}
+                >
+                  {" "}
+                  <FaUser />
+                  {!user ? <p>Sign In</p> : "Signout"}
+                </li>
+              </Link>
               <Link to={"/cart"}>
                 <li className="flex items-center gap-2 text-gray-600 hover:text-orange-500 font-medium cursor-pointer ">
                   <IoCart />

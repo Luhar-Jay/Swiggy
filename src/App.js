@@ -9,6 +9,9 @@ import Footer from "./component/Footer";
 import Cart from "./component/Cart";
 import { lazy, Suspense } from "react";
 import Shimmer from "./component/Shimmer";
+import SearchItem from "./component/SearchItem";
+import SignUp from "./component/SignUp";
+import SignIn from "./component/SignIn";
 
 const Body = lazy(() => import("./component/Body"));
 
@@ -36,6 +39,9 @@ function App() {
             />
             <Route path="/category/:id" element={<SubCategories />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/search/:id" element={<SearchItem />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<SignIn />} />
           </Routes>
           <Footer />
         </BrowserRouter>
