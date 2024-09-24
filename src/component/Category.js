@@ -35,7 +35,7 @@ const Category = () => {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[1200px] mx-auto hidden md:block">
       <div className="flex items-center justify-between mt-4">
         <h1 className="font-bold text-2xl">What's on your mind?</h1>
         <div className="flex gap-4">

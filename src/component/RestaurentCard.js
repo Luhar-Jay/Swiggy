@@ -1,6 +1,5 @@
 import { CiStar } from "react-icons/ci";
 import { CDN_URL } from "../utils/constant";
-import { FcRating } from "react-icons/fc";
 
 const RestaurantCard = (props) => {
   const { resData } = props;
@@ -11,11 +10,11 @@ const RestaurantCard = (props) => {
   return (
     <div
       data-testid="resCard"
-      className="m-4 p-4 w-[250px] h-[370px] rounded-lg overflow-hidden  border hover:border-red-600 hover:scale-95"
+      className="m-4 p-4 w-[200px] sm:w-[250px] h-[370px] rounded-lg overflow-hidden border hover:border-red-600 hover:scale-95 transition-transform duration-300"
     >
       <div className="relative object-cover">
         <img
-          className="rounded-lg relative object-cover w-full h-52 opacity-80 shadow-xl "
+          className="rounded-lg relative object-cover w-full h-52 opacity-80 shadow-xl"
           alt="res-logo"
           src={CDN_URL + cloudinaryImageId}
         />
@@ -31,16 +30,14 @@ const RestaurantCard = (props) => {
       </div>
       <h3 className="font-bold pt-5 text-lg ">{name}</h3>
       <div className="flex items-center">
-        <span className="mr-1 ">
+        <span className="mr-1">
           <CiStar className="rounded-full bg-yellow-500" />
         </span>
-        <h4> {avgRating} </h4>
-        <span className="items-center justify-center text-center m-1 font-bold text-2xl top-[-10px]">
-          .
-        </span>
-        <h4> {sla?.slaString} </h4>
+        <h4>{avgRating}</h4>
+        <span className="mx-1 font-bold text-2xl">·</span>
+        <h4>{sla?.slaString}</h4>
       </div>
-      <h4 className="cuisines">{cuisines.join(", ")}</h4>
+      <h4 className="text-sm text-gray-500">{cuisines.join(", ")}</h4>
     </div>
   );
 };

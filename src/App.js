@@ -22,6 +22,8 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<SignIn />} />
             <Route path="/search" element={<Search />} />
             <Route
               path="/"
@@ -40,8 +42,6 @@ function App() {
             <Route path="/category/:id" element={<SubCategories />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/search/:id" element={<SearchItem />} />
-            <Route path="/register" element={<SignUp />} />
-            <Route path="/login" element={<SignIn />} />
           </Routes>
           <Footer />
         </BrowserRouter>

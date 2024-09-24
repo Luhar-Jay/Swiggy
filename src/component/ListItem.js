@@ -8,11 +8,12 @@ const ListItem = ({ items }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((store) => store.cart.items);
 
-  const addToCart = (items) => {
-    dispatch(addItem(items));
+  const addToCart = (item) => {
+    dispatch(addItem(item));
   };
-  const removeCart = (items) => {
-    dispatch(removeItem(items));
+
+  const removeCart = (item) => {
+    dispatch(removeItem(item));
   };
 
   const getItemQuantity = (itemId) => {
@@ -21,63 +22,62 @@ const ListItem = ({ items }) => {
   };
 
   return (
-    <div>
-      <div className="">
-        {items.map((item) => (
-          <div
-            key={item.card.info.id}
-            className="flex justify-between gap-4 my-4 border-b-2 px-4"
-          >
-            <div className="w-6/12 ">
-              <p className="font-bold ">{item.card.info.name}</p>
-              <p className="flex items-center font-bold ">
-                <LiaRupeeSignSolid />
-                {(item.card.info.price || item.card.info.defaultPrice) / 100}
-              </p>
-              <p className="flex font-bold my-1 text-[14px] items-center gap-1 text-green-800">
-                <FaStar /> {item.card.info.ratings.aggregatedRating.rating}
-              </p>
-              <p className=" text-gray-600  font-sans">
-                {item.card.info.description}
-              </p>
-            </div>
-            <div>
-              <img
-                src={CDN_URL + item.card.info.imageId}
-                alt={item.card.info.name}
-                className="h-36 w-36 rounded-lg border "
-              />
-              {getItemQuantity(item.card.info.id) <= 0 ? (
-                <button
-                  className="relative border bottom-5 left-1/4 bg-white rounded-md font-bold text-green-600 mx-auto p-2 w-20 "
+    <div className="p-4">
+      {items.map((item) => (
+        <div
+          key={item.card.info.id}
+          className="flex flex-col md:flex-row justify-between gap-4 my-4 border-b-2 pb-4 px-2 md:px-4"
+        >
+          <div className="w-full md:w-6/12">
+            <p className="font-bold text-lg">{item.card.info.name}</p>
+            <p className="flex items-center font-bold text-xl">
+              <LiaRupeeSignSolid className="text-xl" />
+              {(
+                (item.card.info.price || item.card.info.defaultPrice) / 100
+              ).toFixed(2)}
+            </p>
+            <p className="flex font-bold my-1 text-[14px] items-center gap-1 text-green-800">
+              <FaStar /> {item.card.info.ratings.aggregatedRating.rating}
+            </p>
+            <p className="text-gray-600 font-sans">
+              {item.card.info.description}
+            </p>
+          </div>
+          <div className="flex flex-col items-center">
+            <img
+              src={CDN_URL + item.card.info.imageId}
+              alt={item.card.info.name}
+              className="h-36 w-36 rounded-lg border mb-2"
+            />
+            {getItemQuantity(item.card.info.id) <= 0 ? (
+              <button
+                className="bg-white border rounded-md font-bold text-green-600 py-2 w-20"
+                onClick={() => addToCart(item.card.info)}
+              >
+                ADD
+              </button>
+            ) : (
+              <div className="flex items-center bg-white border rounded-md p-1 space-x-2">
+                <span
+                  className="cursor-pointer border-r-2 px-4"
+                  onClick={() => removeCart(item.card.info)}
+                >
+                  -
+                </span>
+                <span className="text-green-600 font-bold">
+                  {getItemQuantity(item.card.info.id)}
+                </span>
+                <span
+                  className="cursor-pointer border-l-2 px-4"
                   onClick={() => addToCart(item.card.info)}
                 >
-                  ADD
-                </button>
-              ) : (
-                <div className="relative w-32 left-2 bg-white bottom-4 p-0 border space-x-4 text-center ">
-                  <span
-                    className="relative cursor-pointer border-r-2 h-full px-4"
-                    onClick={() => removeCart(item.card.info)}
-                  >
-                    -
-                  </span>
-                  <span className="text-green-600 font-bold">
-                    {getItemQuantity(item.card.info.id)}
-                  </span>
-
-                  <span
-                    className="relative cursor-pointer px-4 border-l-2 "
-                    onClick={() => addToCart(item.card.info)}
-                  >
-                    +
-                  </span>
-                </div>
-              )}
-            </div>
+                  +
+                </span>
+              </div>
+            )}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LOGO_URL } from "../utils/constant";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase";
@@ -10,6 +10,14 @@ const SignIn = () => {
 
   const email = useRef(null);
   const password = useRef(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate("/");
+      }
+    });
+  }, [navigate]);
 
   const handleButtonClick = () => {
     signInWithEmailAndPassword(

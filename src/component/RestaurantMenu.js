@@ -39,7 +39,7 @@ const RestaurantMenu = () => {
     setSlider(slider - 2);
   };
 
-  if (!restaurant.length) {
+  if (!restaurant || restaurant.length === 0) {
     return <Shimmer />;
   }
 
@@ -47,11 +47,11 @@ const RestaurantMenu = () => {
     <div className="max-w-[1200px] mx-auto mt-10">
       <div>
         {/* <Shimmer /> */}
-        <div className="flex justify-between">
-          <h1 className="font-bold text-2xl">
+        <div className="md:flex md:justify-between">
+          <h1 className="font-bold text-2xl px-4">
             Top restaurant chains in Ahmedabad
           </h1>
-          <div className="flex gap-4">
+          <div className="hidden md:flex gap-4">
             <div
               className=" bg-gray-400 w-10 h-10 rounded-full justify-center flex items-center cursor-pointer"
               onClick={nextImage}
@@ -66,11 +66,11 @@ const RestaurantMenu = () => {
             </div>
           </div>
         </div>
-        <div className="flex overflow-x-hidden">
+        <div className=" md:flex md:overflow-x-hidden ">
           {restaurant.map((res) => (
             <div
               key={res.info.id}
-              className="duration-1000"
+              className="duration-1000 grid-cols-2 w-[200px] md:w-full justify-center mx-auto"
               style={{ transform: `translateX(-${slider * 100}% )` }}
             >
               <Link to={`/category/${res.info.id}`}>

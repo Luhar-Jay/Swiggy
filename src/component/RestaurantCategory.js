@@ -1,27 +1,32 @@
 import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import ListItem from "./ListItem";
-import { BiHandicap } from "react-icons/bi";
 
 const RestaurantCategory = ({ data }) => {
   const [show, setShow] = useState(true);
   const handleToggle = () => {
     setShow(!show);
   };
+
   return (
-    <div>
-      <div className="  items-center    my-4 p-2 shadow-xl ">
+    <div className="my-4">
+      <div className="items-center p-4 shadow-xl rounded-lg bg-white">
         <div
-          className="flex justify-between font-bold py-4 cursor-pointer"
+          className="flex justify-between items-center font-bold py-2 cursor-pointer"
           onClick={handleToggle}
         >
-          <span>
+          <span className="text-lg sm:text-xl">
             {data.title} ({data.itemCards.length})
           </span>
-          <span>
+          <span
+            className={`transform ${
+              show ? "rotate-180" : "rotate-0"
+            } transition-transform duration-300`}
+          >
             <FaAngleDown />
           </span>
         </div>
+        {/* Render ListItems only if 'show' is true */}
         {show && <ListItem items={data.itemCards} />}
       </div>
     </div>
