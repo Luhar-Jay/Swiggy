@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import ListItem from "./ListItem";
+import { useLocation } from "react-router-dom";
 
 const RestaurantCategory = ({ data }) => {
   const [show, setShow] = useState(true);
+
+  useLocation(() => {
+    window.scrollY = 0;
+  }, [data]);
+
   const handleToggle = () => {
     setShow(!show);
   };

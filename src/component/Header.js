@@ -44,7 +44,7 @@ const Header = () => {
     <>
       {/* Popup */}
       <div
-        className="black-overlay h-full w-full fixed transition-opacity duration-500"
+        className="black-overlay h-full w-full fixed transition-opacity duration-500 top-0 "
         style={{
           opacity: popUp ? 1 : 0,
           visibility: popUp ? "visible" : "hidden",
@@ -82,7 +82,7 @@ const Header = () => {
       </div>
 
       {/* Header */}
-      <div className="shadow-xl bg-white">
+      <div className="shadow-xl bg-white sticky ">
         <div className="flex justify-between p-4 mx-4 lg:mx-24">
           {/* Left Section */}
           <div className=" md:flex items-center gap-4">
